@@ -3,4 +3,6 @@
     <string name="download_success">Download Success</string>
     <string name="action_chat">Chat</string>
     <string name="help_shift_app_key">2ea39def28e6bd7cf39a8f4e394af3ad</string>
+    <string name="help_shift_domain">alokomkar.helpshift.com</string>
+    <string name="help_shift_app_id">alokomkar_platform_20161024113235822-31218b6f379ed8b</string>
 </resources>
