@@ -17,6 +17,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 
 import app.football.com.footballapp.R;
@@ -99,6 +101,19 @@ public class MainActivity extends AppCompatActivity {
             FootballTeam footballTeam = FootballTeam.createObject( map );
             footballTeams.add(footballTeam);
         }
+        //Sort teams as per total score and GD
+        Collections.sort(footballTeams, new Comparator<FootballTeam>() {
+            @Override
+            public int compare(FootballTeam lhs, FootballTeam rhs) {
+                int result = lhs.getTotalPoints() - rhs.getTotalPoints();
+                if( result != 0 )
+                    return result;
+                else
+                   result = lhs.getGD() - rhs.getGD();
+                return result;
+            }
+        });
+
         setupAdapter();
     }
 

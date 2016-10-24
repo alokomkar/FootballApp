@@ -20,6 +20,7 @@ public class FootballTeam {
     private int totalWon;
     private int totalLost;
     private int totalDrawn;
+    private int totalPoints;
 
     private ArrayList<Scores> scores = new ArrayList<>();
     private String descriptionText;
@@ -86,6 +87,11 @@ public class FootballTeam {
 
     public void setTotalDrawn(int totalDrawn) {
         this.totalDrawn = totalDrawn;
+    }
+
+    public int getTotalPoints() {
+        totalPoints = totalDrawn + totalWon;
+        return totalPoints;
     }
 
     public static FootballTeam createObject(Map.Entry<String, JsonElement> map) {
