@@ -1,6 +1,9 @@
 package app.football.com.footballapp.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
@@ -18,7 +21,6 @@ import android.widget.Toast;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.helpshift.support.ApiConfig;
-import com.helpshift.support.ContactUsFilter;
 import com.helpshift.support.Support;
 
 import java.util.ArrayList;
@@ -74,12 +76,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startChat() {
+        if( !isNetworkAvailable() ) {
+            Toast.makeText(MainActivity.this, "Internet connection unavailable", Toast.LENGTH_SHORT).show();
+            return;
+        }
         ApiConfig.Builder configBuilder = new ApiConfig.Builder();
         configBuilder.setEnableFullPrivacy(true);
         configBuilder.setEnableChat(true);
         configBuilder.setEnableContactUs(1);
         configBuilder.setRequireEmail(false);
-        ContactUsFilter.init(MainActivity.this);
         Support.showConversation(MainActivity.this, configBuilder.build());
     }
 
@@ -99,7 +104,30 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public boolean isNetworkAvailable() {
+        try {
+            ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            boolean connected = networkInfo != null && networkInfo.isAvailable() &&
+                    networkInfo.isConnected();
+            return connected;
+
+
+        } catch (Exception e) {
+            System.out.println("CheckConnectivity Exception: " + e.getMessage());
+            Log.v("connectivity", e.toString());
+        }
+        return false;
+    }
+
     private void initInterface() {
+
+        if( !isNetworkAvailable() ) {
+            Toast.makeText(MainActivity.this, "Internet connection unavailable", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         displayProgressDialog();
         GetScoresInterface getScoresInterface = ServiceGenerator.createService(GetScoresInterface.class);
         Call<JsonObject> call = getScoresInterface.getFootballScores("FootballScoresData.json");
