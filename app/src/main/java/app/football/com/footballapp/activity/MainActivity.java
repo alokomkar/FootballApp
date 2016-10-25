@@ -17,6 +17,9 @@ import android.widget.Toast;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.helpshift.support.ApiConfig;
+import com.helpshift.support.ContactUsFilter;
+import com.helpshift.support.Support;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,7 +74,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startChat() {
-
+        ApiConfig.Builder configBuilder = new ApiConfig.Builder();
+        configBuilder.setEnableFullPrivacy(true);
+        configBuilder.setEnableChat(true);
+        configBuilder.setEnableContactUs(1);
+        configBuilder.setRequireEmail(false);
+        ContactUsFilter.init(MainActivity.this);
+        Support.showConversation(MainActivity.this, configBuilder.build());
     }
 
     private void displayProgressDialog() {

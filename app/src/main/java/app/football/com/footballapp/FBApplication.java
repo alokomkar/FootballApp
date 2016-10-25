@@ -20,7 +20,9 @@ public class FBApplication extends Application {
     }
 
     private void initHelpShift() {
-        InstallConfig installConfig = new InstallConfig.Builder().build();
+        InstallConfig installConfig = new InstallConfig.Builder()
+                .setEnableInAppNotification(true)
+                .build();
         Core.init(All.getInstance());
         try {
             Core.install(this,
